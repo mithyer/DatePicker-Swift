@@ -47,6 +47,7 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         _didConfirmHandler = didConfirmHandler
         self.delegate = self
         self.dataSource = self
+        self.setNeedReload()
     }
     
     public func show() {
@@ -71,8 +72,6 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         container.addSubview(confirmBtn)
         
         window?.addSubview(container)
-        
-        self.setNeedReload()
     }
     
     @objc private func dismiss() {
