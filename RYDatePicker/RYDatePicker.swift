@@ -157,13 +157,9 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
     
     private func reload() {
         DispatchQueue.main.async {[weak self] in
-            if nil == self {
-                return
-            }
-            let sSelf = self!
-            if !sSelf._needReload {
-                return
-            }
+            guard let sSelf = self else {return}
+            guard sSelf._needReload else {return}
+            
             sSelf._needReload = false
             let date = sSelf.selectDate
             
@@ -185,18 +181,17 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
             var minDay = 1
             var minHour = 0
             var minMinute = 0
-            if date.year == minYear {
+            
+            repeat {
+                guard date.year == minYear else {break}
                 minMonth = minLimitDate.month
-                if date.month == minMonth {
-                    minDay = minLimitDate.day
-                    if date.day == minDay {
-                        minHour = minLimitDate.hour
-                        if date.hour == minHour {
-                            minMinute = minLimitDate.minute
-                        }
-                    }
-                }
-            }
+                guard date.month == minMonth else {break}
+                minDay = minLimitDate.day
+                guard date.day == minDay else {break}
+                minHour = minLimitDate.hour
+                guard date.hour == minHour else {break}
+                minMinute = minLimitDate.minute
+            } while(false)
             
             var maxMonth = 12
             let calendar = Calendar.current
@@ -204,18 +199,17 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
             var maxDay = days.count
             var maxHour = 23
             var maxMinute = 59
-            if date.year == maxYear {
+            
+            repeat {
+                guard date.year == maxYear else {break}
                 maxMonth = maxLimitDate.month
-                if date.month == maxMonth {
-                    maxDay = maxLimitDate.day
-                    if date.day == maxDay {
-                        maxHour = maxLimitDate.hour
-                        if date.hour == maxHour {
-                            maxMinute = maxLimitDate.minute
-                        }
-                    }
-                }
-            }
+                guard date.month == maxMonth else {break}
+                maxDay = maxLimitDate.day
+                guard date.day == maxDay else {break}
+                maxHour = maxLimitDate.hour
+                guard date.hour == maxHour else {break}
+                maxMinute = maxLimitDate.minute
+            } while(false)
             
             for i in minMonth...maxMonth {
                 monthArray.append(i)
