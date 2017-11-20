@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  RYDatePicker-Swift-Demo
+
+  Created by ray on 2017/11/20.
+  Copyright © 2017年 ray. All rights reserved.
+*/
+
+"RYDatePicker.confirm" = "确定";
+"RYDatePicker.year" = "年";
+"RYDatePicker.month" = "月";
+"RYDatePicker.day" = "日";
+"RYDatePicker.hour" = "时";
+"RYDatePicker.minute" = "分";

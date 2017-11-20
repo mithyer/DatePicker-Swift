@@ -11,6 +11,7 @@
 		71BE73621FBD36B00009559D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BE73611FBD36B00009559D /* ViewController.swift */; };
 		71FAA7621FBEA251006BF55C /* Date+RYExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FAA7601FBEA250006BF55C /* Date+RYExtension.swift */; };
 		71FAA7631FBEA251006BF55C /* RYDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FAA7611FBEA250006BF55C /* RYDatePicker.swift */; };
+		71FAA7681FC2795C006BF55C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71FAA76A1FC2795C006BF55C /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		71BE73771FBD62930009559D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		71FAA7601FBEA250006BF55C /* Date+RYExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+RYExtension.swift"; sourceTree = "<group>"; };
 		71FAA7611FBEA250006BF55C /* RYDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RYDatePicker.swift; sourceTree = "<group>"; };
+		71FAA76B1FC27974006BF55C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				71BE735F1FBD36B00009559D /* AppDelegate.swift */,
 				71BE73611FBD36B00009559D /* ViewController.swift */,
 				71BE736B1FBD36B00009559D /* Info.plist */,
+				71FAA76A1FC2795C006BF55C /* Localizable.strings */,
 			);
 			path = "RYDatePicker-Swift-Demo";
 			sourceTree = "<group>";
@@ -121,8 +124,8 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 71BE73531FBD36B00009559D;
 			productRefGroup = 71BE735D1FBD36B00009559D /* Products */;
@@ -139,6 +142,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71FAA7681FC2795C006BF55C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,11 +162,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		71FAA76A1FC2795C006BF55C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				71FAA76B1FC27974006BF55C /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		71BE736C1FBD36B00009559D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -220,6 +236,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

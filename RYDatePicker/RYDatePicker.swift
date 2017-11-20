@@ -9,37 +9,46 @@
 import Foundation
 import UIKit
 
-public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
+
+
+public enum RYDatePickerComponentsStyle {
+    case yearMonthDayHourMinute, yearMonthDay, dayHourMinute, monthDay, hourMinute
+    
+    fileprivate enum ComponentsOption: Int {
+        case year = 0, month, day, hour, minute
+        var localizedString: String {
+            switch self {
+            case .year:return NSLocalizedString("RYDatePicker.year", comment: "year")
+            case .month:return NSLocalizedString("RYDatePicker.month", comment: "month")
+            case .day:return NSLocalizedString("RYDatePicker.day", comment: "day")
+            case .hour:return NSLocalizedString("RYDatePicker.hour", comment: "hour")
+            case .minute:return NSLocalizedString("RYDatePicker.minute", comment: "minute")
+            }
+        }
+    }
+    fileprivate var options: [ComponentsOption] {
+        switch self {
+        case .yearMonthDayHourMinute:return [.year, .month, .day, .hour, .minute]
+        case .yearMonthDay:return [.year, .month, .day]
+        case .dayHourMinute:return [.day, .hour, .minute]
+        case .monthDay:return [.month, .day]
+        case .hourMinute:return [.hour, .minute]
+        }
+    }
+}
+
+open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     static private let ConfirmBtnHeight: CGFloat = 50
-    static public let DateFormat = "yyyy-MM-dd HH:mm"
-    static public let DefaultMinSelectDate = Date.date(dateStr: "1900-01-01 00:00", format: RYDatePicker.DateFormat)!
-    static public let DefaultMaxSelectDate = Date.date(dateStr: "2099-12-31 23:59", format: RYDatePicker.DateFormat)!
-    private struct UsedWord {
-        static let confirm = "确定", year = "年", month = "月", day = "日", hour = "时", minute = "分"
-    }
-    
+    static open let DateFormat = "yyyy-MM-dd HH:mm"
+    static open let DefaultMinSelectDate = Date.date(dateStr: "1900-01-01 00:00", format: RYDatePicker.DateFormat)!
+    static open let DefaultMaxSelectDate = Date.date(dateStr: "2099-12-31 23:59", format: RYDatePicker.DateFormat)!
+   
+
     private var _didConfirmHandler: ((Date) -> ())?
     private var _needReload: Bool = false
 
-    public enum ComponentsStyle {
-        case yearMonthDayHourMinute, yearMonthDay, dayHourMinute, monthDay, hourMinute
-    }
-    
-    private enum ComponentsOption: Int {
-        case year = 0, month, day, hour, minute
-    }
-    
-    static private let ComponentsStyleOptions: [ComponentsStyle: [ComponentsOption]] = [.yearMonthDayHourMinute: [.year, .month, .day, .hour, .minute],
-                                                                                        .yearMonthDay: [.year, .month, .day],
-                                                                                        .dayHourMinute: [.day, .hour, .minute],
-                                                                                        .monthDay: [.month, .day],
-                                                                                        .hourMinute: [.hour, .minute]]
-    private var optionsOfCurStyle: [ComponentsOption] {
-        return RYDatePicker.ComponentsStyleOptions[_style]!;
-    }
-    
-    public convenience init(didConfirmHandler: ((Date) -> ())?, style: ComponentsStyle = .yearMonthDayHourMinute) {
+    convenience init(didConfirmHandler: ((Date) -> ())?, style: RYDatePickerComponentsStyle = .yearMonthDayHourMinute) {
         let windowBounds = UIApplication.shared.keyWindow?.bounds
         let pickerHeight = (windowBounds?.height)! * 0.4
         self.init(frame: CGRect.init(x: 0, y: (windowBounds?.height)! - pickerHeight - RYDatePicker.ConfirmBtnHeight, width: (windowBounds?.width)!, height: pickerHeight))
@@ -50,7 +59,7 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         self.setNeedReload()
     }
     
-    public func show() {
+    open func show() {
         let window = UIApplication.shared.keyWindow
         if self.superview?.superview == window {
             return
@@ -62,7 +71,7 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         container.addSubview(self)
         
         let confirmBtn = UIButton.init(type: .custom)
-        confirmBtn.setTitle(RYDatePicker.UsedWord.confirm, for: .normal)
+        confirmBtn.setTitle(NSLocalizedString("RYDatePicker.confirm", comment: "confirm"), for: .normal)
         confirmBtn.setTitleColor(.black, for: .normal)
         confirmBtn.layer.borderWidth = 0.5
         confirmBtn.layer.borderColor = UIColor.lightGray.cgColor
@@ -78,8 +87,8 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         self.superview?.removeFromSuperview()
     }
     
-    private var _style: ComponentsStyle = .yearMonthDayHourMinute
-    public var style: ComponentsStyle {
+    private var _style: RYDatePickerComponentsStyle = .yearMonthDayHourMinute
+    public var style: RYDatePickerComponentsStyle {
         get {
             return _style
         }
@@ -146,7 +155,7 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         self.reload()
     }
     
-    private lazy var _optionToUnitDic: [ComponentsOption: [Int]] = [:]
+    private lazy var _optionToUnitDic: [RYDatePickerComponentsStyle.ComponentsOption: [Int]] = [:]
     
     private func reload() {
         DispatchQueue.main.async {[weak self] in
@@ -230,7 +239,7 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
             
             sSelf.reloadAllComponents()
             
-            for (compoent, option) in sSelf.optionsOfCurStyle.enumerated() {
+            for (compoent, option) in sSelf.style.options.enumerated() {
                 var row: Int? = nil
                 switch option {
                 case .year:
@@ -253,11 +262,11 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
     // MARK:UIPickerViewDataSource
 
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return self.optionsOfCurStyle.count;
+        return self.style.options.count;
     }
     
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return (_optionToUnitDic[self.optionsOfCurStyle[component]]?.count) ?? 0
+        return (_optionToUnitDic[self.style.options[component]]?.count) ?? 0
     }
     
     // MARK:UIPickerViewDelegate
@@ -266,15 +275,14 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         return 40
     }
     
-    static private let OptionToSuffix: [ComponentsOption: String] = [.year: RYDatePicker.UsedWord.year, .month: RYDatePicker.UsedWord.month, .day:RYDatePicker.UsedWord.day, .hour:RYDatePicker.UsedWord.hour, .minute:RYDatePicker.UsedWord.minute]
     public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .black
         label.textAlignment = .center
         
-        let option = self.optionsOfCurStyle[component]
-        label.text = "\(_optionToUnitDic[option]![row])" + RYDatePicker.OptionToSuffix[option]!
+        let option = self.style.options[component]
+        label.text = "\(_optionToUnitDic[option]![row])" + option.localizedString
         return label
     }
     
@@ -285,7 +293,7 @@ public class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataS
         var day = selectDate.day
         var hour = selectDate.hour
         var minute = selectDate.minute
-        let option = self.optionsOfCurStyle[component]
+        let option = self.style.options[component]
         let t = _optionToUnitDic[option]![row]
         switch option {
         case .year:
