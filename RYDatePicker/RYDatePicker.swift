@@ -9,35 +9,33 @@
 import Foundation
 import UIKit
 
-
-
-public enum RYDatePickerComponentsStyle {
-    case yearMonthDayHourMinute, yearMonthDay, dayHourMinute, monthDay, hourMinute
+open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    fileprivate enum ComponentsOption: Int {
-        case year = 0, month, day, hour, minute
-        var localizedString: String {
+    public enum ComponentsStyle {
+        case yearMonthDayHourMinute, yearMonthDay, dayHourMinute, monthDay, hourMinute
+        
+        fileprivate enum Option: Int {
+            case year = 0, month, day, hour, minute
+            var localizedString: String {
+                switch self {
+                case .year:return NSLocalizedString("RYDatePicker.year", comment: "year")
+                case .month:return NSLocalizedString("RYDatePicker.month", comment: "month")
+                case .day:return NSLocalizedString("RYDatePicker.day", comment: "day")
+                case .hour:return NSLocalizedString("RYDatePicker.hour", comment: "hour")
+                case .minute:return NSLocalizedString("RYDatePicker.minute", comment: "minute")
+                }
+            }
+        }
+        fileprivate var options: [Option] {
             switch self {
-            case .year:return NSLocalizedString("RYDatePicker.year", comment: "year")
-            case .month:return NSLocalizedString("RYDatePicker.month", comment: "month")
-            case .day:return NSLocalizedString("RYDatePicker.day", comment: "day")
-            case .hour:return NSLocalizedString("RYDatePicker.hour", comment: "hour")
-            case .minute:return NSLocalizedString("RYDatePicker.minute", comment: "minute")
+            case .yearMonthDayHourMinute:return [.year, .month, .day, .hour, .minute]
+            case .yearMonthDay:return [.year, .month, .day]
+            case .dayHourMinute:return [.day, .hour, .minute]
+            case .monthDay:return [.month, .day]
+            case .hourMinute:return [.hour, .minute]
             }
         }
     }
-    fileprivate var options: [ComponentsOption] {
-        switch self {
-        case .yearMonthDayHourMinute:return [.year, .month, .day, .hour, .minute]
-        case .yearMonthDay:return [.year, .month, .day]
-        case .dayHourMinute:return [.day, .hour, .minute]
-        case .monthDay:return [.month, .day]
-        case .hourMinute:return [.hour, .minute]
-        }
-    }
-}
-
-open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     static private let ConfirmBtnHeight: CGFloat = 50
     static open let DateFormat = "yyyy-MM-dd HH:mm"
@@ -48,7 +46,7 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
     private var _didConfirmHandler: ((Date) -> ())?
     private var _needReload: Bool = false
 
-    convenience init(didConfirmHandler: ((Date) -> ())?, style: RYDatePickerComponentsStyle = .yearMonthDayHourMinute) {
+    convenience init(didConfirmHandler: ((Date) -> ())?, style: ComponentsStyle = .yearMonthDayHourMinute) {
         let windowBounds = UIApplication.shared.keyWindow?.bounds
         let pickerHeight = (windowBounds?.height)! * 0.4
         self.init(frame: CGRect.init(x: 0, y: (windowBounds?.height)! - pickerHeight - RYDatePicker.ConfirmBtnHeight, width: (windowBounds?.width)!, height: pickerHeight))
@@ -87,8 +85,8 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
         self.superview?.removeFromSuperview()
     }
     
-    private var _style: RYDatePickerComponentsStyle = .yearMonthDayHourMinute
-    public var style: RYDatePickerComponentsStyle {
+    private var _style: ComponentsStyle = .yearMonthDayHourMinute
+    public var style: ComponentsStyle {
         get {
             return _style
         }
@@ -155,7 +153,7 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
         self.reload()
     }
     
-    private lazy var _optionToUnitDic: [RYDatePickerComponentsStyle.ComponentsOption: [Int]] = [:]
+    private lazy var _optionToUnitDic: [ComponentsStyle.Option: [Int]] = [:]
     
     private func reload() {
         DispatchQueue.main.async {[weak self] in

@@ -89,13 +89,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    static let StyleList: [RYDatePickerComponentsStyle] = [.yearMonthDayHourMinute,
+    static let StyleList: [RYDatePicker.ComponentsStyle] = [.yearMonthDayHourMinute,
                                                             .yearMonthDay,
                                                             .dayHourMinute,
                                                             .monthDay,
                                                             .hourMinute]
     
-    var _style: RYDatePickerComponentsStyle = .yearMonthDayHourMinute
+    var _style: RYDatePicker.ComponentsStyle = .yearMonthDayHourMinute
     @objc func swithBtnTapped(sender: UIButton) {
         let nextIdx = ViewController.StyleList.index(of: _style)! + 1
         let nextStyle = ViewController.StyleList[nextIdx%ViewController.StyleList.count]
