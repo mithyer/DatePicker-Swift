@@ -106,6 +106,7 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
         set(newDate) {
             if newDate != minLimitDate {
                 _minLimitDate = newDate
+                self.setNeedReload()
             }
         }
     }
@@ -118,6 +119,7 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
         set(newDate) {
             if newDate != _maxLimitDate {
                 _maxLimitDate = newDate
+                self.setNeedReload()
             }
         }
     }
