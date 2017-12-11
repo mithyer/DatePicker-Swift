@@ -12,7 +12,7 @@ import UIKit
 open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     public enum ComponentsStyle {
-        case yearMonthDayHourMinute, yearMonthDay, dayHourMinute, monthDay, hourMinute
+        case yearMonthDayHourMinute, yearMonthDayHour, yearMonthDay, yearMonth, year, monthDayHourMinute, monthDayHour, monthDay, month, dayHourMinute, dayHour, day, hourMinute, hour, minute
         
         fileprivate enum Option: Int {
             case year = 0, month, day, hour, minute
@@ -29,10 +29,20 @@ open class RYDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSou
         fileprivate var options: [Option] {
             switch self {
             case .yearMonthDayHourMinute:return [.year, .month, .day, .hour, .minute]
+            case .yearMonthDayHour:return [.year, .month, .day, .hour]
             case .yearMonthDay:return [.year, .month, .day]
-            case .dayHourMinute:return [.day, .hour, .minute]
+            case .yearMonth:return [.year, .month]
+            case .year:return [.year]
+            case .monthDayHourMinute:return [.month, .day, .hour, .minute]
+            case .monthDayHour:return [.month, .day, .hour]
             case .monthDay:return [.month, .day]
+            case .month:return [.month]
+            case .dayHourMinute:return [.day, .hour, .minute]
+            case .dayHour:return [.day, .hour]
+            case .day:return [.day]
             case .hourMinute:return [.hour, .minute]
+            case .hour:return [.hour]
+            case .minute:return [.minute]
             }
         }
     }

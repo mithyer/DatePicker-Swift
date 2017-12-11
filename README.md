@@ -32,5 +32,5 @@ Hour
 
 Minute
 
-OC版：
+OC version：
 https://github.com/mithyer/DatePicker
