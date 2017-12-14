@@ -1,6 +1,6 @@
 # DatePicker-Swift
 
-## support 15 picker types
+## support 15 picker types, Date out of select area won't be shown
 
 Year-Month-Day-Hour-Minute
 
@@ -34,3 +34,4 @@ Minute
 
 OC version：
 https://github.com/mithyer/DatePicker
+
